@@ -4,11 +4,14 @@ import './task-list.css'
 
 
 const TaskList = (props) => {
-console.log(props)
+
    let tasks = props.todos.map((item) => {
        return <Task
         {...item}
-        onDeleted={() => props.onDeleted(item.key)}
+        onDeleted={() => props.onDeleted(item.id)}
+        onToggleCheckbox = {() => props.onToggleCheckbox(item.id)}
+        editItem={props.editItem}
+        showEditForm={() => props.showEditForm(item.id)}
         />
     })
 

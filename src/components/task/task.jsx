@@ -2,50 +2,59 @@ import React, { Component } from "react";
 import { formatDistanceToNow } from "date-fns";
 import './task.css'
 
+class EditingTask extends Component {
+  
+  state = {
+    label: ''
+}
+onLabelEdit = (e) => {
+    
+    this.setState({
+        label: e.target.value
+    }) 
+    
+}
+	
+onSubmit = (e) => {
+  e.preventDefault();
+  this.props.editItem(this.state.label, this.props.id)
+}
 
-const EditingTask = () => {
-  return <input type="text" className="edit" defaultValue="Editing task" />;
+  render () {
+  return <form onSubmit={this.onSubmit}>
+    <input type="text" className="edit" defaultValue={ this.props.name } onChange={this.onLabelEdit}/>
+    </form>
+  }
 };
 
 export default class Task extends Component {
   
- 
-		state = {
-      className: this.props.className,
-      checked: this.props.className === 'completed' ? true : false
-    };
-	
 
-  handleCheckboxChange(event) {
-		this.setState(( {checked} ) => {
-      return {
-        checked: !checked,
-        className:  (!checked ? 'completed' : 'active')
-        
-      }
-    });
-	}
-  
   render () {
+
+
+    
   return (
-    <li className={this.state.className}>
+    <li className={ this.props.isEditing ? 'editing' : this.props.isCompleted ? 'completed' : 'active'}>
       
       <div className="view">
       <input
         className='toggle'
 				type="checkbox"
-				checked={this.state.checked}
-				onChange={this.handleCheckboxChange.bind(this)}
+				checked={this.props.isCompleted}
+				onChange={this.props.onToggleCheckbox}
 			/>
         <label>
           <span className="description">{ this.props.name }</span>
           <span className="created">{ formatDistanceToNow(new Date()) }</span>
         </label>
-        <button className="icon icon-edit"></button>
+        <button className="icon icon-edit" onClick={ this.props.showEditForm }></button>
         <button className="icon icon-destroy" onClick={this.props.onDeleted}></button>
       </div>
-
-      {this.props.className === "editing" ? <EditingTask /> : null}
+      {this.props.isEditing === true ? <EditingTask
+      editItem={this.props.editItem}
+      id={this.props.id}
+      name={this.props.name}/> : null}
     </li>
   );
   }
