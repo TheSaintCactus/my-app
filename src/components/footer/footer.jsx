@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
-import TaskFilter from '../tasks-filter'
+import TaskFilter from './tasks-filter'
+import PropTypes from 'prop-types'
 import './footer.css'
 
 
 export default class Footer extends Component {
 
+ 
+
 
   render () {
 
+  
     const completedCount = this.props.todos.filter((el) => {
       return el.isCompleted
     }).length
@@ -23,4 +27,19 @@ export default class Footer extends Component {
   )
  }
 }
+
+Footer.defaultProps = {
+  todos: [],
+  filter: '',
+  onFilterChange: () => {},
+  clearCompleted: () => {},
+}
+
+Footer.propTypes = {
+  todos: PropTypes.array,
+  filter: PropTypes.string,
+  onFilterChange: PropTypes.func,
+  clearCompleted: PropTypes.func,
+}
+
 

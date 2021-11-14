@@ -1,6 +1,7 @@
 import React from 'react'
 import Task from '../task'
 import './task-list.css'
+import PropTypes from 'prop-types'
 
 
 const TaskList = (props) => {
@@ -20,7 +21,23 @@ const TaskList = (props) => {
         { tasks }
         </ul>
     )
-    
 }
+
+
+TaskList.propDefault = {
+    todos: PropTypes.array,
+    onDeleted: PropTypes.func,
+    onToggleCheckbox: PropTypes.func,
+    editItem: PropTypes.func,
+    showEditForm: PropTypes.func,
+  }
+  
+  TaskList.defaultProps = {
+    todos: [],
+    onDeleted: () => {},
+    onToggleCheckbox: () => {},
+    editItem: () => {},
+    showEditForm: () => {}
+  }
 
 export default TaskList

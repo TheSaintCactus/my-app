@@ -3,6 +3,7 @@ import NewTaskForm from "./components/new-task-form/index";
 import TaskList from "./components/task-list";
 import Footer from "./components/footer";
 
+
 export default class App extends Component {
   id = 0;
   key = 0;
@@ -42,6 +43,7 @@ export default class App extends Component {
       name,
       isCompleted: false,
       isEditing: false,
+      dateCreated: new Date(),
       key: this.key++,
       id: this.id++,
     };

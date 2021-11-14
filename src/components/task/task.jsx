@@ -1,31 +1,9 @@
 import React, { Component } from "react";
-import { formatDistanceToNow } from "date-fns";
 import './task.css'
+import EditForm from "./edit-form";
+import PropTypes from 'prop-types'
+import Time from './time'
 
-class EditingTask extends Component {
-  
-  state = {
-    label: ''
-}
-onLabelEdit = (e) => {
-    
-    this.setState({
-        label: e.target.value
-    }) 
-    
-}
-	
-onSubmit = (e) => {
-  e.preventDefault();
-  this.props.editItem(this.state.label, this.props.id)
-}
-
-  render () {
-  return <form onSubmit={this.onSubmit}>
-    <input type="text" className="edit" defaultValue={ this.props.name } onChange={this.onLabelEdit}/>
-    </form>
-  }
-};
 
 export default class Task extends Component {
   
@@ -46,12 +24,12 @@ export default class Task extends Component {
 			/>
         <label>
           <span className="description">{ this.props.name }</span>
-          <span className="created">{ formatDistanceToNow(new Date()) }</span>
+          <span className="created"><Time dateCreated={this.props.dateCreated} /></span>
         </label>
         <button className="icon icon-edit" onClick={ this.props.showEditForm }></button>
         <button className="icon icon-destroy" onClick={this.props.onDeleted}></button>
       </div>
-      {this.props.isEditing === true ? <EditingTask
+      {this.props.isEditing === true ? <EditForm
       editItem={this.props.editItem}
       id={this.props.id}
       name={this.props.name}/> : null}
@@ -60,3 +38,21 @@ export default class Task extends Component {
   }
 };
 
+
+Task.propTypes = {
+  item: PropTypes.object,
+  onDeleted: PropTypes.func,
+  onToggleCheckbox: PropTypes.func,
+  editItem: PropTypes.func,
+  showEditForm: PropTypes.func,
+  dateCreated: PropTypes.object
+}
+
+Task.defaultProps = {
+  item: {},
+  onDeleted: () => {},
+  onToggleCheckbox: () => {},
+  editItem: () => {},
+  showEditForm: () => {},
+  dateCreated: {},
+}

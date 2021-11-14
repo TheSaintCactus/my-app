@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './new-task-form.css'
-
+import PropTypes from 'prop-types'
 
 export default class NewTaskForm extends Component {
 
@@ -35,3 +35,10 @@ export default class NewTaskForm extends Component {
     }
 }
 
+NewTaskForm.propType = {
+    addItem: PropTypes.func
+}
+
+NewTaskForm.defaultProp = {
+  addItem: () => {}
+}
