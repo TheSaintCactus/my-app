@@ -40,11 +40,7 @@ export default class App extends Component {
     });
   };
 
-
-
-
-
-
+  
   addItem = (name) => {
     this.setState(({ taskArray }) => ({
         taskArray: [...taskArray, this.createItem(name)],
