@@ -8,37 +8,41 @@ export default class NewTaskForm extends Component {
         label: ''
     }
 
-    onLabelChange = (e) => {
+    onLabelChange = (event) => {
         
         this.setState({
-            label: e.target.value
+            label: event.target.value
         })
     }
 
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.props.addItem(this.state.label)
+    onSubmit = (event) => {
+        const { label } = this.state
+        const { addItem } = this.props
+        event.preventDefault();
+        addItem(label)
         this.setState({
             label: ''
         })
     }
 
     render () {
+
+    const { label } = this.state
+
     return <form onSubmit={this.onSubmit}>
            <input className="new-todo" 
                   placeholder="What needs to be done?" 
-                  autoFocus
                   onChange={this.onLabelChange}
-                  value={this.state.label} />
+                  value={label} />
                   </form>
     }
 }
 
-NewTaskForm.propType = {
+NewTaskForm.propTypes = {
     addItem: PropTypes.func
 }
 
-NewTaskForm.defaultProp = {
+NewTaskForm.defaultProps = {
   addItem: () => {}
 }

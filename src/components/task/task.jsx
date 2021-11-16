@@ -1,51 +1,53 @@
-import React, { Component } from "react";
+import React from "react";
 import './task.css'
-import EditForm from "./edit-form";
 import PropTypes from 'prop-types'
+import EditForm from "./edit-form";
+
 import Time from './time'
 
+const Task = function Task( {name, isCompleted, isEditing, onToggleCheckbox, dateCreated, showEditForm, onDeleted, editItem, id } ) {
+const isCompl = isCompleted ? 'completed' : 'active' 
+const isEdit = isEditing ? 'editing' : isCompl
 
-export default class Task extends Component {
-  
-
-  render () {
-
-
-    
   return (
-    <li className={ this.props.isEditing ? 'editing' : this.props.isCompleted ? 'completed' : 'active'}>
+    <li className={ isEdit }>
       
       <div className="view">
       <input
         className='toggle'
 				type="checkbox"
-				checked={this.props.isCompleted}
-				onChange={this.props.onToggleCheckbox}
+				checked={isCompleted}
+				onChange={onToggleCheckbox}
 			/>
         <label>
-          <span className="description">{ this.props.name }</span>
-          <span className="created"><Time dateCreated={this.props.dateCreated} /></span>
+          <span className="description">{ name }</span>
+          <span className="created"><Time dateCreated={dateCreated} /></span>
         </label>
-        <button className="icon icon-edit" onClick={ this.props.showEditForm }></button>
-        <button className="icon icon-destroy" onClick={this.props.onDeleted}></button>
+        <button className="icon icon-edit" onClick={ showEditForm } type='button' alt='edit'/>
+        <button className="icon icon-destroy" onClick={onDeleted} type='button' alt='delete'/>
       </div>
-      {this.props.isEditing === true ? <EditForm
-      editItem={this.props.editItem}
-      id={this.props.id}
-      name={this.props.name}/> : null}
+      {isEditing === true ? <EditForm
+      editItem={editItem}
+      id={id}
+      name={name}/> : null}
     </li>
-  );
-  }
-};
+  )
+}
 
 
 Task.propTypes = {
-  item: PropTypes.object,
+  item: PropTypes.shape({
+    
+  }),
+  dateCreated: PropTypes.instanceOf(Date),
   onDeleted: PropTypes.func,
   onToggleCheckbox: PropTypes.func,
   editItem: PropTypes.func,
   showEditForm: PropTypes.func,
-  dateCreated: PropTypes.object
+  name: PropTypes.string,
+  isCompleted: PropTypes.bool.isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 }
 
 Task.defaultProps = {
@@ -55,4 +57,8 @@ Task.defaultProps = {
   editItem: () => {},
   showEditForm: () => {},
   dateCreated: {},
+  name: '',
+
 }
+
+export default Task;

@@ -5,8 +5,10 @@ import Footer from "./components/footer";
 
 
 export default class App extends Component {
-  id = 0;
+
   key = 0;
+
+  id = 0;
 
   state = {
     taskArray: [
@@ -17,44 +19,36 @@ export default class App extends Component {
     filter: 'all'
   };
 
-  propToggle(arr, propName, id) {
-      const idx = arr.findIndex((el) => el.id === id);
-      const oldItem = arr[idx];
-      const newItem = { ...oldItem, 
-        [propName]: !oldItem[propName]};
 
-      return [
-          ...arr.slice(0, idx),
-          newItem,
-          ...arr.slice(idx + 1),
-        ]
-  }
 
   showEditForm = (id) => {
-    this.setState(({ taskArray }) => {
-    return {
+    this.setState(({ taskArray }) => ({
       taskArray: this.propToggle(taskArray, 'isEditing', id)
-    }
-    });
+    }));
   }
 
-  createItem(name) {
-    return {
-      name,
-      isCompleted: false,
-      isEditing: false,
-      dateCreated: new Date(),
-      key: this.key++,
-      id: this.id++,
-    };
-  }
 
-  addItem = (name) => {
+  clearCompleted = () => {
     this.setState(({ taskArray }) => {
+     const active = this.filter(taskArray, 'Active')
+      const newArray = [
+        ...active
+      ];
       return {
-        taskArray: [...taskArray, this.createItem(name)],
+        taskArray: newArray,
       };
     });
+  };
+
+
+
+
+
+
+  addItem = (name) => {
+    this.setState(({ taskArray }) => ({
+        taskArray: [...taskArray, this.createItem(name)],
+      }));
   };
 
   editItem = (newName, id) => {
@@ -87,17 +81,31 @@ export default class App extends Component {
   };
 
 
+
+
   onToggleCheckbox = (id) => {
-    this.setState(({ taskArray }) => {
-      return {
+    this.setState(({ taskArray }) => ({
         taskArray: this.propToggle(taskArray, 'isCompleted', id)
-      }
-      });
+      }));
   };
 
   onFilterChange = (filter) => {
     this.setState({ filter })
   }
+
+  createItem(name) {
+this.key += 1
+this.id += 1
+    return {
+      name,
+      isCompleted: false,
+      isEditing: false,
+      dateCreated: new Date(),
+      key: this.key,
+      id: this.id,
+    };
+  }
+
 
   filter(items, filter) {
 
@@ -114,23 +122,25 @@ export default class App extends Component {
 
   }
 
-  clearCompleted = () => {
-    this.setState(({ taskArray }) => {
-     const active = this.filter(taskArray, 'Active')
-      const newArray = [
-        ...active
-      ];
-      return {
-        taskArray: newArray,
-      };
-    });
-  };
 
+  propToggle(arr, propName, id) {
+    const idx = arr.findIndex((el) => el.id === id);
+    const oldItem = arr[idx];
+    const newItem = { ...oldItem, 
+      [propName]: !oldItem[propName]};
+
+    return [
+        ...arr.slice(0, idx),
+        newItem,
+        ...arr.slice(idx + 1),
+      ]
+}
 
   render() {
   
-    const filtered = this.filter(this.state.taskArray, this.state.filter)
+    const { taskArray, filter } = this.state
 
+    const filtered = this.filter(taskArray, filter)
     return (
       <section className="todoapp">
         <header className="header">
@@ -143,8 +153,8 @@ export default class App extends Component {
             editItem={this.editItem}
             showEditForm={this.showEditForm}
           />
-          <Footer todos={this.state.taskArray}
-          filter={this.state.filter}
+          <Footer todos={taskArray}
+          filter={filter}
           onFilterChange={this.onFilterChange}
           clearCompleted={this.clearCompleted}/>
         </header>

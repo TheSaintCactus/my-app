@@ -1,22 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Task from '../task'
 import './task-list.css'
-import PropTypes from 'prop-types'
 
 
-const TaskList = (props) => {
 
-   let tasks = props.todos.map((item) => {
-       return <Task
+const TaskList = function TaskList({ todos, onDeleted, onToggleCheckbox, showEditForm, editItem }) {
+
+   const tasks = todos.map((item) => <Task
         {...item}
-        onDeleted={() => props.onDeleted(item.id)}
-        onToggleCheckbox = {() => props.onToggleCheckbox(item.id)}
-        editItem={props.editItem}
-        showEditForm={() => props.showEditForm(item.id)}
-        />
-    })
+        onDeleted={() => onDeleted(item.id)}
+        onToggleCheckbox = {() => onToggleCheckbox(item.id)}
+        editItem={editItem}
+        showEditForm={() => showEditForm(item.id)}
+        />)
 
     return (
+      
         <ul className='todo-list'>
         { tasks }
         </ul>
@@ -24,8 +24,8 @@ const TaskList = (props) => {
 }
 
 
-TaskList.propDefault = {
-    todos: PropTypes.array,
+TaskList.propTypes = {
+    todos: PropTypes.arrayOf(PropTypes.object),
     onDeleted: PropTypes.func,
     onToggleCheckbox: PropTypes.func,
     editItem: PropTypes.func,

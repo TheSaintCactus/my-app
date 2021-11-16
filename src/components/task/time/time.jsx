@@ -1,28 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 import { formatDistanceToNow } from "date-fns";
 import PropTypes from 'prop-types'
 
+const Time = function Time({ dateCreated }) {
+  
 
-export default class Time extends Component {
-  formatDate = formatDistanceToNow(this.props.dateCreated, {addSuffix: true, includeSeconds: true})
+ const formatDate = formatDistanceToNow(dateCreated, {addSuffix: true, includeSeconds: true});
 
-
-
-  render () {
-
-
-
-    return <span>{this.formatDate}</span>
-  }
+    return <span>{formatDate}</span>
+  
 
 };
 
-Time.propDefault = {
-  dateCreated: {},
+
+
+
+
+Time.propTypes = {
+  dateCreated: PropTypes.instanceOf(Date).isRequired
 }
 
-
-
-Time.defaultProps = {
-  dateCreated: PropTypes.object
-}
+export default Time

@@ -4,34 +4,42 @@ import PropTypes from 'prop-types'
 
 
 export default class EditForm extends Component {
-  
-  state = {
-    label: this.props.name
+
+  constructor({ name }) {
+  super()
+  this.state = {
+    label: name
+  }
 }
-onLabelEdit = (e) => {
+
+onLabelEdit = (event) => {
     
     this.setState({
-        label: e.target.value
+        label: event.target.value
     }) 
     
 }
 	
-onSubmit = (e) => {
-  e.preventDefault();
-  this.props.editItem(this.state.label, this.props.id)
+onSubmit = (event) => {
+  const { label } = this.state
+  const { editItem, id } = this.props
+  event.preventDefault();
+  editItem(label, id)
 }
 
   render () {
 
-  return <form onSubmit={this.onSubmit}>
-    <input type="text" className="edit" defaultValue={ this.props.name } onChange={this.onLabelEdit} autoFocus/>
-    </form>
+    const { name } = this.props
+
+  return (<form onSubmit={this.onSubmit}>
+    <input type="text" className="edit" defaultValue={ name } onChange={this.onLabelEdit} />
+    </form>)
   }
 };
 
-EditForm.propDefault = {
+EditForm.propTypes = {
   editItem: PropTypes.func,
-  id: PropTypes.num,
+  id: PropTypes.number.isRequired,
   name: PropTypes.string
 }
 
