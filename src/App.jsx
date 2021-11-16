@@ -16,7 +16,7 @@ export default class App extends Component {
       this.createItem("hoho"),
       this.createItem("haha"),
     ],
-    filter: 'all'
+    filter: 'All'
   };
 
 
