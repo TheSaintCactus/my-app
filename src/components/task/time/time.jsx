@@ -9,20 +9,25 @@ export default class Time extends Component {
     time: formatDistanceToNow(new Date(), {addSuffix: true, includeSeconds: true})
   }
 
+componentDidMount() {
+  const {dateCreated} = this.props
+setInterval(() => {
+    this.setState(() => ({
+        time: formatDistanceToNow(dateCreated, {addSuffix: true, includeSeconds: true})
+      })
+    )
+  }, 5000)
+  
+}
+
+
+
 render () {
 
-const { dateCreated } = this.props
 const { time } = this.state
 
-setInterval(() => {
-  this.setState(() => ({
-      time: formatDistanceToNow(dateCreated, {addSuffix: true, includeSeconds: true})
-    })
-  )
-}, 5000)
 
 
-// formatDistanceToNow(times, {addSuffix: true, includeSeconds: true});
 
     return <span>{ time }</span>
 }

@@ -17,7 +17,7 @@ const TaskList = function TaskList({ todos, onDeleted, onToggleCheckbox, showEdi
 
     return (
       
-        <ul className='todo-list'>
+        <ul className='list-group task-list'>
         { tasks }
         </ul>
     )

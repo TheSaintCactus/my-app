@@ -4,9 +4,27 @@ import PropTypes from 'prop-types'
 import EditForm from "./edit-form";
 
 import Time from './time'
+import TaskTimer from "./task-timer";
 
-const Task = function Task( {name, isCompleted, isEditing, onToggleCheckbox, dateCreated, showEditForm, onDeleted, editItem, id } ) {
-const isCompl = isCompleted ? 'completed' : 'active' 
+ const Task = function Task({name,
+  isCompleted,
+  isEditing,
+  onToggleCheckbox,
+  dateCreated,
+  showEditForm,
+  onDeleted,
+  editItem,
+  id,
+  timeLeft,
+  }) {
+
+
+
+
+
+
+
+const isCompl = isCompleted ? 'task completed' : 'task active' 
 const isEdit = isEditing ? 'editing' : isCompl
 
   return (
@@ -20,7 +38,8 @@ const isEdit = isEditing ? 'editing' : isCompl
 				onChange={onToggleCheckbox}
 			/>
         <label>
-          <span className="description">{ name }</span>
+        <span className="title">{ name }</span>
+          <TaskTimer timeLeft={timeLeft} onToggleCheckbox={() => onToggleCheckbox(id)}/>
           <span className="created"><Time dateCreated={dateCreated} /></span>
         </label>
         <button className="icon icon-edit" onClick={ showEditForm } type='button' alt='edit'/>
@@ -32,6 +51,7 @@ const isEdit = isEditing ? 'editing' : isCompl
       name={name}/> : null}
     </li>
   )
+
 }
 
 
@@ -48,6 +68,7 @@ Task.propTypes = {
   isCompleted: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
+  timeLeft: PropTypes.instanceOf(Date).isRequired
 }
 
 Task.defaultProps = {
@@ -58,7 +79,6 @@ Task.defaultProps = {
   showEditForm: () => {},
   dateCreated: {},
   name: '',
-
 }
 
-export default Task;
+export default Task
