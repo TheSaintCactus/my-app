@@ -21,11 +21,11 @@ const stopTimer = () => {
 const startTimer = () => {
     let newTime = timeLeft;
     const interval = setInterval(() => {
-         setActiveInterval(interval)  
+         
       newTime -= 1000;
       setTimeLeft(newTime);
     }, 1000);
-
+    setActiveInterval(interval)  
 
 
   };
