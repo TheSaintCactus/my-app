@@ -4,7 +4,7 @@ import './task-timer.css';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
-const TaskTimer = function TaskTimer({ timeLeftProp, onToggleCheckbox }) {
+const TaskTimer = function TaskTimer({ timeLeftProp, onToggleCheckbox, isCompleted }) {
 
 
 const [timeLeft, setTimeLeft] = useState(timeLeftProp)
@@ -42,9 +42,13 @@ useEffect(() => {
       setIsPlay(false)
       onToggleCheckbox();
     }, 1000);
-
   }
+
+  
 }, [activeInterval, onToggleCheckbox, timeLeft])
+
+
+useEffect(() => () => clearInterval(activeInterval), [ activeInterval ])
 
 
 
@@ -57,7 +61,7 @@ useEffect(() => {
     const button = isPlay ? pauseButton : playButton;
 
     return (
-      <span className={formatTimeLeft === '00:00' ? 'hidden' : 'description'}>
+      <span className={formatTimeLeft === '00:00' || isCompleted ? 'hidden' : 'description'}>
         {button}
         {formatTimeLeft}
       </span>
@@ -68,6 +72,7 @@ useEffect(() => {
 TaskTimer.propTypes = {
   onToggleCheckbox: PropTypes.func.isRequired,
   timeLeftProp: PropTypes.instanceOf(Date).isRequired,
+  isCompleted: PropTypes.bool.isRequired
 };
 
 export default TaskTimer
