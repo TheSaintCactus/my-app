@@ -1,41 +1,33 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import './edit-form.css'
 import PropTypes from 'prop-types'
 
 
-export default class EditForm extends Component {
 
-  constructor({ name }) {
-  super()
-  this.state = {
-    label: name
-  }
-}
 
-onLabelEdit = (event) => {
+const EditForm = function EditForm({ name, editItem, id}) {
+
+  const [label, setLabel] = useState(name)
+
+
+  const onLabelEdit = (event) => {
     
-    this.setState({
-        label: event.target.value
-    }) 
+    setLabel(event.target.value)
     
 }
 	
-onSubmit = (event) => {
-  const { label } = this.state
-  const { editItem, id } = this.props
+const onSubmit = (event) => {
   event.preventDefault();
   editItem(label, id)
 }
 
-  render () {
 
-    const { name } = this.props
 
-  return (<form onSubmit={this.onSubmit}>
-    <input type="text" className="edit" defaultValue={ name } onChange={this.onLabelEdit} />
-    </form>)
-  }
-};
+
+  return (<form onSubmit={onSubmit}>
+    <input type="text" className="edit" defaultValue={ name } onChange={onLabelEdit} />
+    </form>) 
+}
 
 EditForm.propTypes = {
   editItem: PropTypes.func,
@@ -47,3 +39,8 @@ EditForm.defaultProps = {
   editItem: () => {},
   name: ''
 }
+
+
+
+
+export default EditForm

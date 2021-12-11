@@ -39,7 +39,7 @@ const isEdit = isEditing ? 'editing' : isCompl
 			/>
         <label>
         <span className="title">{ name }</span>
-          <TaskTimer timeLeft={timeLeft} onToggleCheckbox={() => onToggleCheckbox(id)}/>
+          {timeLeft === 0 ? null : <TaskTimer timeLeftProp={timeLeft} onToggleCheckbox={() => onToggleCheckbox(id)}/>}
           <span className="created"><Time dateCreated={dateCreated} /></span>
         </label>
         <button className="icon icon-edit" onClick={ showEditForm } type='button' alt='edit'/>

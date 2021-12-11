@@ -1,20 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './tasks-filter.css'
 import PropTypes from 'prop-types'
 
-export default class TasksFilter extends Component {
+const TasksFilter = function TasksFilter({filter, onFilterChange}) {
 
-  buttons = [
+  const buttons = [
     { name: 'All'},
     { name: 'Active'},
     { name: 'Completed'},
   ]
 
-  render () {  
+   
 
-const {filter, onFilterChange} = this.props
 
-    const buttons = this.buttons.map(({ name }) => {
+    const buttonsRender = buttons.map(({ name }) => {
 
       const isActive = filter === name
       const isSelected = isActive ? 'selected' : null
@@ -31,10 +30,10 @@ const {filter, onFilterChange} = this.props
 
   return (
         <ul className="filters">
-            {buttons}
+            {buttonsRender}
           </ul>
     )
-  }
+  
 }
 
 TasksFilter.propTypes = {
@@ -48,4 +47,4 @@ TasksFilter.defaultProps = {
   onFilterChange: () => {}
 }
 
-
+export default TasksFilter

@@ -1,39 +1,23 @@
-import React, { Component } from "react";
-import { formatDistanceToNow } from "date-fns";
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react';
+import { formatDistanceToNow } from 'date-fns';
+import PropTypes from 'prop-types';
 
-export default class Time extends Component {
+const Time = function Time({ dateCreated }) {
+  const [time, setTime] = useState(formatDistanceToNow(new Date(), { addSuffix: true, includeSeconds: true }));
 
-  state = {
-    
-    time: formatDistanceToNow(new Date(), {addSuffix: true, includeSeconds: true})
-  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(formatDistanceToNow(dateCreated, { addSuffix: true, includeSeconds: true }));
+    }, 5000);
 
-componentDidMount() {
-  const {dateCreated} = this.props
-setInterval(() => {
-    this.setState(() => ({
-        time: formatDistanceToNow(dateCreated, {addSuffix: true, includeSeconds: true})
-      })
-    )
-  }, 5000)
-  
-}
+    return clearInterval(interval);
+  });
 
-
-
-render () {
-
-const { time } = this.state
-
-
-
-
-    return <span>{ time }</span>
-}
-
+  return <span>{time}</span>;
 };
 
 Time.propTypes = {
-  dateCreated: PropTypes.instanceOf(Date).isRequired
-}
+  dateCreated: PropTypes.instanceOf(Date).isRequired,
+};
+
+export default Time;
